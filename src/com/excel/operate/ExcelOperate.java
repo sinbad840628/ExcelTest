@@ -19,43 +19,39 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class ExcelOperate {
-	static String[][]  result = null;
+	///static String[][]  result = null;
 	public static void main(String[] args) throws Exception{
-		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\2.csv");
-		result = getData(file, 1);
+		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.xls");
+		String[][] result = getData(file, 1);
+		String[][] gwldata = result;
 		int rowLength = result.length;
+		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.xls 中读出的数据：");
 		for (int i = 0; i < rowLength; i++) {
 			for (int j = 0; j < result[i].length; j++) {
 				System.out.print(result[i][j] + "\t\t");
 			}
 			System.out.println();
 		}//end of for loop
-		System.out.println("##############################################################################");
+		System.out.println("##################转化后的格式###################################");
 		for (int i = 0; i < rowLength; i++) {
-			for (int j = 0; j < result[i].length; j++) {
-				System.out.println("A;"+result[i][0]+";;Systemliquid;"+result[i][1]+";;"+result[i][4]+";;;");
-				System.out.println("D;"+result[i][2]+";;Abbvie 96Well Microplate;"+result[i][3]+";;"+result[i][4]+";;;");
-			}
-			System.out.println("W;");
+			//for (int j = 0; j < gwldata[i].length; j++) {
+				System.out.println("A;"+gwldata[i][0]+";;Systemliquid;"+gwldata[i][1]+";;"+gwldata[i][4]+";;;");
+				System.out.println("D;"+gwldata[i][2]+";;Abbvie 96Well Microplate;"+gwldata[i][3]+";;"+gwldata[i][4]+";;;");
+				System.out.println("W;");
+			//}
+			
 		}
 	}
 	
 	
 	
 	 /**
-
      * 读取Excel的内容，第一维数组存储的是一行中格列的值，二维数组存储的是多少个行
-
      * @param file 读取数据的源Excel
-
      * @param ignoreRows 读取数据忽略的行数，比喻行头不需要读入 忽略的行数为1
-
      * @return 读出的Excel中数据的内容
-
      * @throws FileNotFoundException
-
      * @throws IOException
-
      */
 	public static String[][] getData(File file, int ignoreRows) throws FileNotFoundException,IOException{
 		
@@ -95,7 +91,7 @@ public class ExcelOperate {
 					cell = row.getCell(columnIndex);
 					if (cell != null) {
 						//注意！ 一定要设置成为这个状态，否则会是乱码
-						//cell.setEncoding
+						//cell.set
 						switch (cell.getCellType()) {
 						case HSSFCell.CELL_TYPE_STRING:
 							value = cell.getStringCellValue();
@@ -108,7 +104,9 @@ public class ExcelOperate {
 									value = new SimpleDateFormat("yyyy-MM-dd").format(date);
 								}
 							}else{
-								value = "";
+								//value = "";
+								//value = cell.getCellType() + "";
+								value = (int)cell.getNumericCellValue() + "";
 							}break;
 							
 						case HSSFCell.CELL_TYPE_FORMULA:

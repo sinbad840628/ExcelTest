@@ -31,7 +31,7 @@ public class SheetWorkBookUtils {
 		}		
 	}
 	public static void main(String[] args) {
-		SheetWorkBookUtils.saveCopyAs("D:/tt.xls", "D:/tt2.xls");		
+		SheetWorkBookUtils.saveCopyAs("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\2.csv", "C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.csv");		
 	}	  
 }
 
