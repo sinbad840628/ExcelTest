@@ -19,18 +19,28 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class ExcelOperate {
-
+	static String[][]  result = null;
 	public static void main(String[] args) throws Exception{
-		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\student_info.xls");
-		String[][] result = getData(file, 1);
+		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\2.csv");
+		result = getData(file, 1);
 		int rowLength = result.length;
 		for (int i = 0; i < rowLength; i++) {
 			for (int j = 0; j < result[i].length; j++) {
 				System.out.print(result[i][j] + "\t\t");
 			}
 			System.out.println();
+		}//end of for loop
+		System.out.println("##############################################################################");
+		for (int i = 0; i < rowLength; i++) {
+			for (int j = 0; j < result[i].length; j++) {
+				System.out.println("A;"+result[i][0]+";;Systemliquid;"+result[i][1]+";;"+result[i][4]+";;;");
+				System.out.println("D;"+result[i][2]+";;Abbvie 96Well Microplate;"+result[i][3]+";;"+result[i][4]+";;;");
+			}
+			System.out.println("W;");
 		}
 	}
+	
+	
 	
 	 /**
 
