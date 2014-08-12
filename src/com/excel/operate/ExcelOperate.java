@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 public class ExcelOperate {
 	///static String[][]  result = null;
 	public static void main(String[] args) throws Exception{
-		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.xls");
-		String[][] result = getData(file, 1);
+		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\475845.XLS");
+		String[][] result = getData(file, 20);
 		String[][] gwldata = result;
 		int rowLength = result.length;
-		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.xls 中读出的数据：");
+		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\D475845.xls 中读出的数据：");
 		for (int i = 0; i < rowLength; i++) {
 			for (int j = 0; j < result[i].length; j++) {
 				System.out.print(result[i][j] + "\t\t");
@@ -33,17 +34,43 @@ public class ExcelOperate {
 			System.out.println();
 		}//end of for loop
 		System.out.println("##################转化后的格式###################################");
-		for (int i = 0; i < rowLength; i++) {
-			//for (int j = 0; j < gwldata[i].length; j++) {
-				System.out.println("A;"+gwldata[i][0]+";;Systemliquid;"+gwldata[i][1]+";;"+gwldata[i][4]+";;;");
-				System.out.println("D;"+gwldata[i][2]+";;Abbvie 96Well Microplate;"+gwldata[i][3]+";;"+gwldata[i][4]+";;;");
-				System.out.println("W;");
-			//}
-			
-		}
+
+		createGWLFile(result,new File("L:\\07_PIKM (IT Tech)\\07_Separation\\3.gwl"));
 	}
 	
-	
+	/**
+	 * 这个方法是用来得到一组二维数组，然后将对应的数组变成生成文件的参数，然后生成文件
+	 * */
+	public static void createGWLFile(String[][] resultArray,File filename){
+		RandomAccessFile mm = null;
+		try {
+			mm = new RandomAccessFile(filename, "rw");
+			
+			for (int i = 0; i < resultArray.length; i++) {				
+				String filein = "A;"+resultArray[i][0]+";;Systemliquid;"+resultArray[i][1]+";;"+resultArray[i][4]+";;;\n"+
+						"D;"+resultArray[i][2]+";;Abbvie 96Well Microplate;"+resultArray[i][3]+";;"+resultArray[i][4]+";;;\n"+
+						"W;\n";
+				mm.writeBytes(filein);
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if (mm != null) {
+				try {
+					System.out.println("书写完毕,关闭");
+					mm.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	 /**
      * 读取Excel的内容，第一维数组存储的是一行中格列的值，二维数组存储的是多少个行
