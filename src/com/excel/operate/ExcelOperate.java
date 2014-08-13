@@ -22,20 +22,38 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 public class ExcelOperate {
 	///static String[][]  result = null;
 	public static void main(String[] args) throws Exception{
-		File file = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\475845.XLS");
-		String[][] result = getData(file, 20);
-		String[][] gwldata = result;
-		int rowLength = result.length;
-		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\D475845.xls 中读出的数据：");
-		for (int i = 0; i < rowLength; i++) {
-			for (int j = 0; j < result[i].length; j++) {
-				System.out.print(result[i][j] + "\t\t");
-			}
-			System.out.println();
-		}//end of for loop
+		File firstFile = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\456.xls");
+		String[][] Datas = getData(firstFile, 20);
+		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\456.xls 中读出的数据：");
+		
+		File secondFile = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.xls");
+		String[][] formats = getData(secondFile, 1);
+		
+		//String[][] gwldata = result;
+		//int rowLength = result.length;
+		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\456.xls 中读出的数据：");
+		//for (int i = 0; i < rowLength; i++) {
+		//	for (int j = 0; j < result[i].length; j++) {
+		//		System.out.print(result[i][j] + "\t\t");
+		//	}
+		//	System.out.println();
+		//}//end of for loop
+		
+		String[][] resultArray =  Mixdata(Datas,formats);
+		
 		System.out.println("############转化后的格式########################");
 
-		createGWLFile(result,new File("L:\\07_PIKM (IT Tech)\\07_Separation\\3.gwl"));
+		createGWLFile(resultArray,new File("L:\\07_PIKM (IT Tech)\\07_Separation\\3.gwl"));
+	}
+	
+	/**
+	 * 这是一个方法，将对应的两个excel文件中的数组进行整合的文件，其中取出的数据将会得到整合
+	 * */
+	public static String[][] Mixdata(String[][] formatArray, String[][] dataArray ){
+		String[][] resultArray = null;
+		//TODO 开始进行数据整合状态
+		
+		return resultArray;
 	}
 	
 	/**
@@ -133,7 +151,7 @@ public class ExcelOperate {
 							}else{
 								//value = "";
 								//value = cell.getCellType() + "";
-								value = (int)cell.getNumericCellValue() + "";
+								value = cell.getNumericCellValue() + "";
 							}break;
 							
 						case HSSFCell.CELL_TYPE_FORMULA:
