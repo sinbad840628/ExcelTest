@@ -26,34 +26,70 @@ public class ExcelOperate {
 		String[][] Datas = getData(firstFile, 20);
 		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\456.xls 中读出的数据：");
 		
+		for (int i = 0; i < Datas.length; i++) {
+			for (int j = 0; j < Datas[i].length; j++) {
+				System.out.print(Datas[i][j] + "\t\t");
+			}
+			System.out.println();
+		}//end of for loop
+		
+		System.out.println("############转化后的格式########################");		
+		
 		File secondFile = new File("C:\\Dev\\WorkSpace\\ExcelTest\\lib\\22.xls");
 		String[][] formats = getData(secondFile, 1);
 		
-		//String[][] gwldata = result;
-		//int rowLength = result.length;
 		System.out.println("从C:\\Dev\\WorkSpace\\ExcelTest\\lib\\456.xls 中读出的数据：");
-		//for (int i = 0; i < rowLength; i++) {
-		//	for (int j = 0; j < result[i].length; j++) {
-		//		System.out.print(result[i][j] + "\t\t");
-		//	}
-		//	System.out.println();
-		//}//end of for loop
+		for (int i = 0; i < formats.length; i++) {
+			for (int j = 0; j < formats[i].length; j++) {
+				System.out.print(formats[i][j] + "\t\t");
+			}
+			System.out.println();
+		}//end of for loop
+		
+		System.out.println("############经过合并后的数据########################");
 		
 		String[][] resultArray =  Mixdata(Datas,formats);
 		
-		System.out.println("############转化后的格式########################");
-
-		createGWLFile(resultArray,new File("L:\\07_PIKM (IT Tech)\\07_Separation\\3.gwl"));
+		for (int i = 0; i < resultArray.length; i++) {
+			for (int j = 0; j < resultArray[i].length; j++) {
+				System.out.print(resultArray[i][j] + "\t\t");
+			}
+			System.out.println();
+		}//end of for loop
+		System.out.println("############最后的gwl文件是这样子的########################");
+		createGWLFile(resultArray,new File("L:\\07_PIKM (IT Tech)\\07_Separation\\45.gwl"));
 	}
 	
 	/**
 	 * 这是一个方法，将对应的两个excel文件中的数组进行整合的文件，其中取出的数据将会得到整合
 	 * */
-	public static String[][] Mixdata(String[][] formatArray, String[][] dataArray ){
-		String[][] resultArray = null;
+	public static String[][] Mixdata(String[][] dataArray, String[][] formatArray ){
+		//String[][] resultArray = null;
 		//TODO 开始进行数据整合状态
 		
-		return resultArray;
+		//第一步：比较两个二维数组的长度。
+		int smallLoop = formatArray.length;
+		int bigLoop = formatArray.length;
+		//System.out.println("temp's length is " + temp);
+		if( dataArray.length > smallLoop){
+			bigLoop = dataArray.length;
+		}
+		
+		for (int i = 0; i < formatArray.length; i++) {			
+			//只专注于用来更新新的数据
+			for(int j = 0; j <dataArray.length ; j++ ){		
+				//第二步：比较之后，我们需要合并同类项。
+				if(i<= j){
+					formatArray[i][4] = String.format("%.4f", Double.parseDouble(dataArray[i][7]) * 1000 * 100/ Double.parseDouble(dataArray[i][6]));
+				}else{
+					formatArray[i][4] ="0";
+				}
+			}
+			formatArray[i][3] = (i+1)+"";
+		}
+		//第三步：得到合并数据
+		
+		return formatArray;
 	}
 	
 	/**
@@ -69,6 +105,7 @@ public class ExcelOperate {
 						"D;"+resultArray[i][2]+";;Abbvie 96Well Microplate;"+resultArray[i][3]+";;"+resultArray[i][4]+";;;\n"+
 						"W;\n";
 				mm.writeBytes(filein);
+				System.out.print(filein);
 			}
 			
 		} catch (FileNotFoundException e) {
