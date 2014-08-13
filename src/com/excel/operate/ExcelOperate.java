@@ -33,7 +33,7 @@ public class ExcelOperate {
 			}
 			System.out.println();
 		}//end of for loop
-		System.out.println("##################转化后的格式###################################");
+		System.out.println("############转化后的格式########################");
 
 		createGWLFile(result,new File("L:\\07_PIKM (IT Tech)\\07_Separation\\3.gwl"));
 	}
